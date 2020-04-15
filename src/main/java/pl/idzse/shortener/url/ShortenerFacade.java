@@ -13,9 +13,9 @@ public class ShortenerFacade {
     private final TransactionalService transactionService;
 
     @Transactional
-    public ShortUrlDto createShortUrl(String orginalUrl) {
+    public ShortUrlDto createShortUrl(String originalUrl) {
         ShortUrl shortUrl = ShortUrl.builder()
-                .originalUrl(orginalUrl)
+                .originalUrl(originalUrl)
                 .build();
         ShortUrl url = transactionService.save(shortUrl);
         return url.getDto();

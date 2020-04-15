@@ -1,18 +1,15 @@
 package pl.idzse.shortener.url;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.NaturalIdCache;
+import lombok.*;
+import org.hibernate.annotations.*;
+import pl.idzse.shortener.domain.ShortDomain;
 import pl.idzse.shortener.url.dto.OriginalUrlDto;
 import pl.idzse.shortener.url.dto.ShortUrlDto;
 
+import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -24,27 +21,44 @@ import java.util.Objects;
 class ShortUrl {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(AccessLevel.PRIVATE)
     Long id;
     String originalUrl;
 
     @NaturalId(mutable = true)
-    String shortedUrl;
+    String shortUrl;
+
+    @CreationTimestamp
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column
+    @Setter(AccessLevel.PRIVATE)
+    LocalDateTime createDateTime;
+
+    @UpdateTimestamp
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column
+    @Setter(AccessLevel.PRIVATE)
+    LocalDateTime modifyDateTime;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @JoinColumn(nullable = false)
+    ShortDomain domain;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ShortUrl shortUrl1 = (ShortUrl) o;
-        return Objects.equals(shortedUrl, shortUrl1.shortedUrl);
+        ShortUrl other = (ShortUrl) o;
+        return Objects.equals(shortUrl, other.shortUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(shortedUrl);
+        return Objects.hash(shortUrl);
     }
 
     ShortUrlDto getDto() {
-        return new ShortUrlDto(shortedUrl);
+        return new ShortUrlDto(shortUrl);
     }
     OriginalUrlDto getOriginalDto() {
         return new OriginalUrlDto(originalUrl);

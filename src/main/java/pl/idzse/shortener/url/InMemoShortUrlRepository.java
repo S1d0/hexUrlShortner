@@ -55,7 +55,7 @@ class InMemoShortUrlRepository implements ShortUrlRepository {
     @Override
     public <S extends ShortUrl> S save(S shortUrl) {
         uniqeId = uniqeId +1;
-        shortUrl.setId(uniqeId);
+//        shortUrl.setId(uniqeId);
         repository.put(uniqeId, shortUrl);
         return shortUrl;
     }
@@ -132,6 +132,6 @@ class InMemoShortUrlRepository implements ShortUrlRepository {
 
     @Override
     public Optional<ShortUrl> findByShortedUrl(String shortedUrl) {
-        return repository.values().stream().filter(url -> url.getShortedUrl().equals(shortedUrl)).findFirst();
+        return null;
     }
 }

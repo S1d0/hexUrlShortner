@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.transaction.Transactional;
 
 @Service
@@ -19,13 +18,13 @@ class TransactionalService {
     @Transactional
     ShortUrl save(ShortUrl shortUrl) {
         entityManager.persist(shortUrl);
-        shortUrl.setShortedUrl(
+        shortUrl.setShortUrl(
                 creator.getShortUrl(shortUrl.id)
         );
         return ShortUrl.builder()
                 .id(shortUrl.id)
                 .originalUrl(shortUrl.originalUrl)
-                .shortedUrl(shortUrl.shortedUrl)
+                .shortUrl(shortUrl.shortUrl)
                 .build();
     }
 }
