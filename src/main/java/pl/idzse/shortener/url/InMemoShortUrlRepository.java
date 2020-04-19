@@ -131,7 +131,7 @@ class InMemoShortUrlRepository implements ShortUrlRepository {
     }
 
     @Override
-    public Optional<ShortUrl> findByShortedUrl(String shortedUrl) {
+    public Optional<ShortUrl> findByShortUrl(String shortedUrl) {
         return null;
     }
 }

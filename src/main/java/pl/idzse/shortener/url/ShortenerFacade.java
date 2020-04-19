@@ -22,7 +22,7 @@ public class ShortenerFacade {
     }
 
     public OriginalUrlDto getOrginalUrl(String shortUrl) {
-        Optional<ShortUrl> optionalUrl = repository.findByShortedUrl(shortUrl);
+        Optional<ShortUrl> optionalUrl = repository.findByShortUrl(shortUrl);
         if (optionalUrl.isPresent()) {
             return optionalUrl.get().getOriginalDto();
         } else {

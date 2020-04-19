@@ -1,10 +1,7 @@
 package pl.idzse.shortener.url;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.idzse.shortener.url.dto.OriginalUrlDto;
 import pl.idzse.shortener.url.dto.ShortUrlDto;
 
@@ -23,4 +20,9 @@ class ShortnerController {
     OriginalUrlDto getOriginalUrl(@RequestParam String shortUrl) {
         return facade.getOrginalUrl(shortUrl);
     }
+
+//    @PostMapping("/short")
+//    ShortUrlDto create(@RequestBody ShortDomainDto dto) {
+//        return null;
+//    }
 }

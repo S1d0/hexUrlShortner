@@ -1,14 +1,13 @@
 package pl.idzse.shortener.url;
 
 import lombok.*;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 import pl.idzse.shortener.domain.ShortDomain;
 import pl.idzse.shortener.url.dto.OriginalUrlDto;
 import pl.idzse.shortener.url.dto.ShortUrlDto;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -28,21 +27,12 @@ class ShortUrl {
     @NaturalId(mutable = true)
     String shortUrl;
 
-    @CreationTimestamp
-    @Temporal(value = TemporalType.TIMESTAMP)
-    @Column
-    @Setter(AccessLevel.PRIVATE)
-    LocalDateTime createDateTime;
-
-    @UpdateTimestamp
-    @Temporal(value = TemporalType.TIMESTAMP)
-    @Column
-    @Setter(AccessLevel.PRIVATE)
-    LocalDateTime modifyDateTime;
-
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    @JoinColumn(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DOMAIN_ID", nullable = false)
     ShortDomain domain;
+
+    @Column(columnDefinition = "TIMESTAMP", updatable = false)
+    LocalDateTime creation;
 
     @Override
     public boolean equals(Object o) {
@@ -60,6 +50,7 @@ class ShortUrl {
     ShortUrlDto getDto() {
         return new ShortUrlDto(shortUrl);
     }
+
     OriginalUrlDto getOriginalDto() {
         return new OriginalUrlDto(originalUrl);
     }
