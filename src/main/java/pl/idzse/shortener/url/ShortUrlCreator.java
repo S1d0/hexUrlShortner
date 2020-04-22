@@ -42,7 +42,6 @@ public class ShortUrlCreator {
     }
 
     public String getShortUrl(long idx) {
-        String HTTPS = "https://";
-        return HTTPS + getBase62From10(idx);
+        return getBase62From10(idx);
     }
 }

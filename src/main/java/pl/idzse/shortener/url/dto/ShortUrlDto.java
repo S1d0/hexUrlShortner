@@ -8,4 +8,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(onConstructor = @__(@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)))
 public class ShortUrlDto {
     private final String shortUrl;
+    private final String shortDomain;
+    private final String shortPath;
 }

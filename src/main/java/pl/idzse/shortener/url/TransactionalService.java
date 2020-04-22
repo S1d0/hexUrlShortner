@@ -18,13 +18,12 @@ class TransactionalService {
     @Transactional
     ShortUrl save(ShortUrl shortUrl) {
         entityManager.persist(shortUrl);
-        shortUrl.setShortUrl(
-                creator.getShortUrl(shortUrl.id)
-        );
+        shortUrl.setShortUrl(creator.getShortUrl(shortUrl.id));
         return ShortUrl.builder()
                 .id(shortUrl.id)
                 .originalUrl(shortUrl.originalUrl)
                 .shortUrl(shortUrl.shortUrl)
+                .domain(shortUrl.domain)
                 .build();
     }
 }

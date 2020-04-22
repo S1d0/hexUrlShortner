@@ -24,6 +24,9 @@ class ShortUrl {
     Long id;
     String originalUrl;
 
+    @Column(updatable = false)
+    Long shortUrlId;
+
     @NaturalId(mutable = true)
     String shortUrl;
 
@@ -48,7 +51,8 @@ class ShortUrl {
     }
 
     ShortUrlDto getDto() {
-        return new ShortUrlDto(shortUrl);
+        String shortPath = "http://" + domain.getShortDomain() + shortUrl;
+        return new ShortUrlDto(shortUrl, domain.getShortDomain(), shortPath);
     }
 
     OriginalUrlDto getOriginalDto() {
