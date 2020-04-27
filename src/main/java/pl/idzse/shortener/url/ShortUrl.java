@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 import pl.idzse.shortener.domain.ShortDomain;
+import pl.idzse.shortener.infra.DateTimeService;
 import pl.idzse.shortener.url.dto.OriginalUrlDto;
 import pl.idzse.shortener.url.dto.ShortUrlDto;
 
@@ -13,9 +14,6 @@ import java.util.Objects;
 
 @Entity
 @NaturalIdCache
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
 class ShortUrl {
     @Id
@@ -23,9 +21,6 @@ class ShortUrl {
     @Setter(AccessLevel.PRIVATE)
     Long id;
     String originalUrl;
-
-    @Column(updatable = false)
-    Long shortUrlId;
 
     @NaturalId(mutable = true)
     String shortUrl;
@@ -36,6 +31,16 @@ class ShortUrl {
 
     @Column(columnDefinition = "TIMESTAMP", updatable = false)
     LocalDateTime creation;
+
+    public ShortUrl() {
+
+    }
+
+    ShortUrl(String url, ShortDomain shortDomain) {
+        this.originalUrl = url;
+        this.domain = shortDomain;
+        this.creation = DateTimeService.INSTANCE.getRequestDateTime();
+    }
 
     @Override
     public boolean equals(Object o) {

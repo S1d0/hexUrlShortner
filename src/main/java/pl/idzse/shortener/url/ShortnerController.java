@@ -18,7 +18,7 @@ class ShortnerController {
 
     @GetMapping("/original")
     OriginalUrlDto getOriginalUrl(@RequestParam String shortUrl) {
-        return facade.getOrginalUrl(shortUrl);
+        return facade.getOriginalUrl(shortUrl);
     }
 
 //    @PostMapping("/short")

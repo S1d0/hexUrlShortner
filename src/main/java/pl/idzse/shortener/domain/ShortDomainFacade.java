@@ -3,20 +3,17 @@ package pl.idzse.shortener.domain;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class ShortDomainFacade {
-    private final ShortDomainRepository repository;
+    private final ShortDomainTxService txService;
+
+    @Transactional
     public ShortDomain createShortDomain(String domain) {
-
-        ShortDomain shortDomain = ShortDomain.builder()
-                .originalDomain(domain)
-                .shortDomain(ShortDomainCreator.create(domain))
-                .creation(LocalDateTime.now())
-                .build();
-
-        return repository.save(shortDomain);
+        return txService
+                .findByNaturalId(domain)
+                .orElseGet(() -> txService.save(new ShortDomain(domain)));
     }
 }

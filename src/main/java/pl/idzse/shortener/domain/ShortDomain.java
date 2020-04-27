@@ -1,20 +1,15 @@
 package pl.idzse.shortener.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.NaturalId;
+import pl.idzse.shortener.infra.DateTimeService;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Builder
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class ShortDomain {
 
     @Id
@@ -30,6 +25,14 @@ public class ShortDomain {
 
     @Column(columnDefinition = "TIMESTAMP", updatable = false)
     LocalDateTime creation;
+
+    public ShortDomain(){}
+
+    ShortDomain(String originalDomain) {
+        this.originalDomain = originalDomain;
+        this.shortDomain = ShortDomainCreator.create(originalDomain);
+        this.creation = DateTimeService.INSTANCE.getRequestDateTime();
+    }
 
     @Override
     public boolean equals(Object o) {
